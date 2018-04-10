@@ -85,11 +85,11 @@ CREATE TABLE COMMENTAIRE(
 # Table: LIKE
 #------------------------------------------------------------
 
-CREATE TABLE LIKE(
-        Id_Evement_Passe   int (11) Auto_increment  NOT NULL ,
-        Nombre_Like        Int NOT NULL ,
+CREATE TABLE Aimer(
+        Id_Aimer			   int (11) Auto_increment  NOT NULL ,
+        Nombre_Aimer        Int NOT NULL ,
         Id_Evenement_Passe Int NOT NULL ,
-        PRIMARY KEY (Id_Evement_Passe ,Id_Evenement_Passe )
+        PRIMARY KEY (Id_Aimer ,Id_Evenement_Passe )
 )ENGINE=InnoDB;
 
 
@@ -264,7 +264,7 @@ ALTER TABLE ACTIVITE ADD CONSTRAINT FK_ACTIVITE_Id_Manifestation FOREIGN KEY (Id
 ALTER TABLE INSCRIPTION_MANIFESTATION ADD CONSTRAINT FK_INSCRIPTION_MANIFESTATION_Id_Manifestation FOREIGN KEY (Id_Manifestation) REFERENCES MANIFESTATION(Id_Manifestation);
 ALTER TABLE VOTE ADD CONSTRAINT FK_VOTE_Id_Activite FOREIGN KEY (Id_Activite) REFERENCES ACTIVITE(Id_Activite);
 ALTER TABLE COMMENTAIRE ADD CONSTRAINT FK_COMMENTAIRE_Id_Evenement_Passe FOREIGN KEY (Id_Evenement_Passe) REFERENCES EVENEMENT_PASSE(Id_Evenement_Passe);
-ALTER TABLE LIKE ADD CONSTRAINT FK_LIKE_Id_Evenement_Passe FOREIGN KEY (Id_Evenement_Passe) REFERENCES EVENEMENT_PASSE(Id_Evenement_Passe);
+ALTER TABLE AIMER ADD CONSTRAINT FK_AIMER_Id_Evenement_Passe FOREIGN KEY (Id_Evenement_Passe) REFERENCES EVENEMENT_PASSE(Id_Evenement_Passe);
 ALTER TABLE MANIFESTATION ADD CONSTRAINT FK_MANIFESTATION_Id_Utilisateur FOREIGN KEY (Id_Utilisateur) REFERENCES UTILISATEUR(Id_Utilisateur);
 ALTER TABLE MANIFESTATION ADD CONSTRAINT FK_MANIFESTATION_Id_Activite FOREIGN KEY (Id_Activite) REFERENCES ACTIVITE(Id_Activite);
 ALTER TABLE ETUDIANT ADD CONSTRAINT FK_ETUDIANT_Id_Utilisateur FOREIGN KEY (Id_Utilisateur) REFERENCES UTILISATEUR(Id_Utilisateur);
