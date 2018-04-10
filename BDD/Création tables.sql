@@ -9,12 +9,14 @@
 
 CREATE TABLE UTILISATEUR(
         Id_Utilisateur             int (11) Auto_increment  NOT NULL ,
-        Nom_Utilisateur            Varchar (25) ,
-        Prenom_Utilisateur         Varchar (25) ,
-        Mail_Utilisateur           Varchar (50) ,
-        Mpd_Utilisateur            Varchar (25) ,
+        Nom_Utilisateur            Varchar (25) NOT NULL ,
+        Prenom_Utilisateur         Varchar (25) NOT NULL ,
+        Mail_Utilisateur           Varchar (50) NOT NULL ,
+        Mpd_Utilisateur            Varchar (25) NOT NULL ,
         Statut_Utilisateur         Varchar (25) NOT NULL ,
         Etat_Connexion_Utilisateur Bool ,
+        Id_Vote                    Int NOT NULL ,
+        Id_Activite                Int NOT NULL ,
         PRIMARY KEY (Id_Utilisateur )
 )ENGINE=InnoDB;
 
@@ -28,6 +30,7 @@ CREATE TABLE ACTIVITE(
         Nom_Activite         Varchar (25) NOT NULL ,
         Description_Activite Varchar (124) NOT NULL ,
         Validation_Activite  Bool ,
+        Id_Utilisateur       Int NOT NULL ,
         Id_Manifestation     Int NOT NULL ,
         PRIMARY KEY (Id_Activite )
 )ENGINE=InnoDB;
@@ -62,9 +65,9 @@ CREATE TABLE VOTE(
 #------------------------------------------------------------
 
 CREATE TABLE EVENEMENT_PASSE(
-        Id_Evenement_Passe    int (11) Auto_increment  NOT NULL ,
-        Nom_Evenement_Passe   Varchar (25) NOT NULL ,
-        Photo_Evenement_Passe Numeric NOT NULL ,
+        Id_Evenement_Passe          int (11) Auto_increment  NOT NULL ,
+        Nom_Evenement_Passe         Varchar (25) ,
+        Description_Evenement_Pasee Varchar (25) ,
         PRIMARY KEY (Id_Evenement_Passe )
 )ENGINE=InnoDB;
 
@@ -76,20 +79,22 @@ CREATE TABLE EVENEMENT_PASSE(
 CREATE TABLE COMMENTAIRE(
         Id_Commentaire          int (11) Auto_increment  NOT NULL ,
         Description_Commentaire Varchar (124) NOT NULL ,
+        Id_Image                Int NOT NULL ,
         Id_Evenement_Passe      Int NOT NULL ,
-        PRIMARY KEY (Id_Commentaire ,Id_Evenement_Passe )
+        PRIMARY KEY (Id_Commentaire ,Id_Image ,Id_Evenement_Passe )
 )ENGINE=InnoDB;
 
 
 #------------------------------------------------------------
-# Table: LIKE
+# Table: LIKES
 #------------------------------------------------------------
 
 CREATE TABLE LIKES(
-        Id_Likes			   int (11) Auto_increment  NOT NULL ,
-        Nombre_Likes        Int NOT NULL ,
+        Id_Likes           int (11) Auto_increment  NOT NULL ,
+        Nombre_Like        Int ,
+        Id_Image           Int NOT NULL ,
         Id_Evenement_Passe Int NOT NULL ,
-        PRIMARY KEY (Id_Likes ,Id_Evenement_Passe )
+        PRIMARY KEY (Id_Likes ,Id_Image ,Id_Evenement_Passe )
 )ENGINE=InnoDB;
 
 
@@ -99,12 +104,12 @@ CREATE TABLE LIKES(
 
 CREATE TABLE MANIFESTATION(
         Id_Manifestation          int (11) Auto_increment  NOT NULL ,
-        Nom_Manifestion           Varchar (25) NOT NULL ,
-        Description_Manifestation Varchar (124) NOT NULL ,
-        Date_Manifestation        Datetime NOT NULL ,
-        Lieu_Manifestation        Varchar (25) NOT NULL ,
-        Photo_Manifestation       Varchar (25) NOT NULL ,
-        Statut_Manifestation      Varchar (25) NOT NULL ,
+        Nom_Manifestion           Varchar (25) ,
+        Description_Manifestation Varchar (124) ,
+        Date_Manifestation        Date ,
+        Lieu_Manifestation        Varchar (25) ,
+        Photo_Manifestation       Numeric ,
+        Statut_Manifestation      Varchar (25) ,
         Id_Utilisateur            Int NOT NULL ,
         Id_Activite               Int NOT NULL ,
         PRIMARY KEY (Id_Manifestation )
@@ -117,89 +122,35 @@ CREATE TABLE MANIFESTATION(
 
 CREATE TABLE PRODUIT(
         Id_Produit          int (11) Auto_increment  NOT NULL ,
-        Nom_Produit         Varchar (25) NOT NULL ,
-        Description_Produit Varchar (50) NOT NULL ,
-        Prix_Produit        DECIMAL (15,3)  NOT NULL ,
-        Nombre_Vendu        Int NOT NULL ,
-        Categorie           Varchar (25) NOT NULL ,
+        Nom_Produit         Varchar (25) ,
+        Description_Produit Varchar (50) ,
+        Prix_Produit        DECIMAL (15,3)  ,
+        Nombre_Vendu        Int ,
+        Categorie           Varchar (25) ,
         PRIMARY KEY (Id_Produit )
 )ENGINE=InnoDB;
 
 
 #------------------------------------------------------------
-# Table: PANIER
+# Table: COMMANDE
 #------------------------------------------------------------
 
-CREATE TABLE PANIER(
-        Id_Panier   int (11) Auto_increment  NOT NULL ,
-        Quantite    Int NOT NULL ,
-        Prix_Panier DECIMAL (15,3)  NOT NULL ,
-        PRIMARY KEY (Id_Panier )
+CREATE TABLE COMMANDE(
+        Id_Commande   int (11) Auto_increment  NOT NULL ,
+        Prix_Commande DECIMAL (15,3)  NOT NULL ,
+        PRIMARY KEY (Id_Commande )
 )ENGINE=InnoDB;
 
 
 #------------------------------------------------------------
-# Table: ETUDIANT
+# Table: IMAGE
 #------------------------------------------------------------
 
-CREATE TABLE ETUDIANT(
-        Id_Utilisateur               Int NOT NULL ,
-        Id_Inscription_Manifestation Int NOT NULL ,
-        Id_Manifestation             Int NOT NULL ,
-        PRIMARY KEY (Id_Utilisateur )
-)ENGINE=InnoDB;
-
-
-#------------------------------------------------------------
-# Table: MEMBRE
-#------------------------------------------------------------
-
-CREATE TABLE MEMBRE(
-        Id_Utilisateur Int NOT NULL ,
-        PRIMARY KEY (Id_Utilisateur )
-)ENGINE=InnoDB;
-
-
-#------------------------------------------------------------
-# Table: PERSONNEL
-#------------------------------------------------------------
-
-CREATE TABLE PERSONNEL(
-        Id_Utilisateur Int NOT NULL ,
-        PRIMARY KEY (Id_Utilisateur )
-)ENGINE=InnoDB;
-
-
-
-
-#------------------------------------------------------------
-# SCRIPT RELATIONS TABLES
-#------------------------------------------------------------
-
-
-
-
-
-#------------------------------------------------------------
-# Table: Proposer
-#------------------------------------------------------------
-
-CREATE TABLE Proposer(
-        Id_Utilisateur             Int NOT NULL ,
-        Id_Activite                Int NOT NULL ,
-        Id_Utilisateur_UTILISATEUR Int NOT NULL ,
-        PRIMARY KEY (Id_Utilisateur ,Id_Activite ,Id_Utilisateur_UTILISATEUR )
-)ENGINE=InnoDB;
-
-
-#------------------------------------------------------------
-# Table: Notifier
-#------------------------------------------------------------
-
-CREATE TABLE Notifier(
-        Id_Utilisateur             Int NOT NULL ,
-        Id_Utilisateur_UTILISATEUR Int NOT NULL ,
-        PRIMARY KEY (Id_Utilisateur ,Id_Utilisateur_UTILISATEUR )
+CREATE TABLE IMAGE(
+        Id_Image           int (11) Auto_increment  NOT NULL ,
+        Image              Numeric ,
+        Id_Evenement_Passe Int NOT NULL ,
+        PRIMARY KEY (Id_Image ,Id_Evenement_Passe )
 )ENGINE=InnoDB;
 
 
@@ -219,9 +170,9 @@ CREATE TABLE Administrer(
 #------------------------------------------------------------
 
 CREATE TABLE Contenir(
-        Id_Produit Int NOT NULL ,
-        Id_Panier  Int NOT NULL ,
-        PRIMARY KEY (Id_Produit ,Id_Panier )
+        Id_Produit  Int NOT NULL ,
+        Id_Commande Int NOT NULL ,
+        PRIMARY KEY (Id_Produit ,Id_Commande )
 )ENGINE=InnoDB;
 
 
@@ -230,9 +181,9 @@ CREATE TABLE Contenir(
 #------------------------------------------------------------
 
 CREATE TABLE Gerer(
-        Id_Utilisateur Int NOT NULL ,
         Id_Produit     Int NOT NULL ,
-        PRIMARY KEY (Id_Utilisateur ,Id_Produit )
+        Id_Utilisateur Int NOT NULL ,
+        PRIMARY KEY (Id_Produit ,Id_Utilisateur )
 )ENGINE=InnoDB;
 
 
@@ -241,22 +192,21 @@ CREATE TABLE Gerer(
 #------------------------------------------------------------
 
 CREATE TABLE Effectuer(
+        Id_Commande    Int NOT NULL ,
         Id_Utilisateur Int NOT NULL ,
-        Id_Panier      Int NOT NULL ,
-        PRIMARY KEY (Id_Utilisateur ,Id_Panier )
+        PRIMARY KEY (Id_Commande ,Id_Utilisateur )
 )ENGINE=InnoDB;
 
 
 #------------------------------------------------------------
-# Table: Voter
+# Table: Inscrire
 #------------------------------------------------------------
 
-CREATE TABLE Voter(
-        Id_Utilisateur             Int NOT NULL ,
-        Id_Utilisateur_UTILISATEUR Int NOT NULL ,
-        Id_Vote                    Int NOT NULL ,
-        Id_Activite                Int NOT NULL ,
-        PRIMARY KEY (Id_Utilisateur ,Id_Utilisateur_UTILISATEUR ,Id_Vote ,Id_Activite )
+CREATE TABLE Inscrire(
+        Id_Inscription_Manifestation Int NOT NULL ,
+        Id_Manifestation             Int NOT NULL ,
+        Id_Utilisateur               Int NOT NULL ,
+        PRIMARY KEY (Id_Inscription_Manifestation ,Id_Manifestation ,Id_Utilisateur )
 )ENGINE=InnoDB;
 
 
@@ -270,34 +220,78 @@ CREATE TABLE Archiver(
         PRIMARY KEY (Id_Manifestation ,Id_Evenement_Passe )
 )ENGINE=InnoDB;
 
+
+#------------------------------------------------------------
+# Table: Aimer
+#------------------------------------------------------------
+
+CREATE TABLE Aimer(
+        Id_Utilisateur     Int NOT NULL ,
+        Id_Likes           Int NOT NULL ,
+        Id_Image           Int NOT NULL ,
+        Id_Evenement_Passe Int NOT NULL ,
+        PRIMARY KEY (Id_Utilisateur ,Id_Likes ,Id_Image ,Id_Evenement_Passe )
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table: Ajouter
+#------------------------------------------------------------
+
+CREATE TABLE Ajouter(
+        Id_Utilisateur     Int NOT NULL ,
+        Id_Image           Int NOT NULL ,
+        Id_Evenement_Passe Int NOT NULL ,
+        PRIMARY KEY (Id_Utilisateur ,Id_Image ,Id_Evenement_Passe )
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table: Commenter
+#------------------------------------------------------------
+
+CREATE TABLE Commenter(
+        Id_Utilisateur     Int NOT NULL ,
+        Id_Commentaire     Int NOT NULL ,
+        Id_Image           Int NOT NULL ,
+        Id_Evenement_Passe Int NOT NULL ,
+        PRIMARY KEY (Id_Utilisateur ,Id_Commentaire ,Id_Image ,Id_Evenement_Passe )
+)ENGINE=InnoDB;
+
+ALTER TABLE UTILISATEUR ADD CONSTRAINT FK_UTILISATEUR_Id_Vote FOREIGN KEY (Id_Vote) REFERENCES VOTE(Id_Vote);
+ALTER TABLE UTILISATEUR ADD CONSTRAINT FK_UTILISATEUR_Id_Activite FOREIGN KEY (Id_Activite) REFERENCES ACTIVITE(Id_Activite);
+ALTER TABLE ACTIVITE ADD CONSTRAINT FK_ACTIVITE_Id_Utilisateur FOREIGN KEY (Id_Utilisateur) REFERENCES UTILISATEUR(Id_Utilisateur);
 ALTER TABLE ACTIVITE ADD CONSTRAINT FK_ACTIVITE_Id_Manifestation FOREIGN KEY (Id_Manifestation) REFERENCES MANIFESTATION(Id_Manifestation);
 ALTER TABLE INSCRIPTION_MANIFESTATION ADD CONSTRAINT FK_INSCRIPTION_MANIFESTATION_Id_Manifestation FOREIGN KEY (Id_Manifestation) REFERENCES MANIFESTATION(Id_Manifestation);
 ALTER TABLE VOTE ADD CONSTRAINT FK_VOTE_Id_Activite FOREIGN KEY (Id_Activite) REFERENCES ACTIVITE(Id_Activite);
+ALTER TABLE COMMENTAIRE ADD CONSTRAINT FK_COMMENTAIRE_Id_Image FOREIGN KEY (Id_Image) REFERENCES IMAGE(Id_Image);
 ALTER TABLE COMMENTAIRE ADD CONSTRAINT FK_COMMENTAIRE_Id_Evenement_Passe FOREIGN KEY (Id_Evenement_Passe) REFERENCES EVENEMENT_PASSE(Id_Evenement_Passe);
+ALTER TABLE LIKES ADD CONSTRAINT FK_LIKES_Id_Image FOREIGN KEY (Id_Image) REFERENCES IMAGE(Id_Image);
 ALTER TABLE LIKES ADD CONSTRAINT FK_LIKES_Id_Evenement_Passe FOREIGN KEY (Id_Evenement_Passe) REFERENCES EVENEMENT_PASSE(Id_Evenement_Passe);
 ALTER TABLE MANIFESTATION ADD CONSTRAINT FK_MANIFESTATION_Id_Utilisateur FOREIGN KEY (Id_Utilisateur) REFERENCES UTILISATEUR(Id_Utilisateur);
 ALTER TABLE MANIFESTATION ADD CONSTRAINT FK_MANIFESTATION_Id_Activite FOREIGN KEY (Id_Activite) REFERENCES ACTIVITE(Id_Activite);
-ALTER TABLE ETUDIANT ADD CONSTRAINT FK_ETUDIANT_Id_Utilisateur FOREIGN KEY (Id_Utilisateur) REFERENCES UTILISATEUR(Id_Utilisateur);
-ALTER TABLE ETUDIANT ADD CONSTRAINT FK_ETUDIANT_Id_Inscription_Manifestation FOREIGN KEY (Id_Inscription_Manifestation) REFERENCES INSCRIPTION_MANIFESTATION(Id_Inscription_Manifestation);
-ALTER TABLE ETUDIANT ADD CONSTRAINT FK_ETUDIANT_Id_Manifestation FOREIGN KEY (Id_Manifestation) REFERENCES MANIFESTATION(Id_Manifestation);
-ALTER TABLE MEMBRE ADD CONSTRAINT FK_MEMBRE_Id_Utilisateur FOREIGN KEY (Id_Utilisateur) REFERENCES UTILISATEUR(Id_Utilisateur);
-ALTER TABLE PERSONNEL ADD CONSTRAINT FK_PERSONNEL_Id_Utilisateur FOREIGN KEY (Id_Utilisateur) REFERENCES UTILISATEUR(Id_Utilisateur);
-ALTER TABLE Proposer ADD CONSTRAINT FK_Proposer_Id_Utilisateur FOREIGN KEY (Id_Utilisateur) REFERENCES UTILISATEUR(Id_Utilisateur);
-ALTER TABLE Proposer ADD CONSTRAINT FK_Proposer_Id_Activite FOREIGN KEY (Id_Activite) REFERENCES ACTIVITE(Id_Activite);
-ALTER TABLE Proposer ADD CONSTRAINT FK_Proposer_Id_Utilisateur_UTILISATEUR FOREIGN KEY (Id_Utilisateur_UTILISATEUR) REFERENCES UTILISATEUR(Id_Utilisateur);
-ALTER TABLE Notifier ADD CONSTRAINT FK_Notifier_Id_Utilisateur FOREIGN KEY (Id_Utilisateur) REFERENCES UTILISATEUR(Id_Utilisateur);
-ALTER TABLE Notifier ADD CONSTRAINT FK_Notifier_Id_Utilisateur_UTILISATEUR FOREIGN KEY (Id_Utilisateur_UTILISATEUR) REFERENCES UTILISATEUR(Id_Utilisateur);
+ALTER TABLE IMAGE ADD CONSTRAINT FK_IMAGE_Id_Evenement_Passe FOREIGN KEY (Id_Evenement_Passe) REFERENCES EVENEMENT_PASSE(Id_Evenement_Passe);
 ALTER TABLE Administrer ADD CONSTRAINT FK_Administrer_Id_Evenement_Passe FOREIGN KEY (Id_Evenement_Passe) REFERENCES EVENEMENT_PASSE(Id_Evenement_Passe);
 ALTER TABLE Administrer ADD CONSTRAINT FK_Administrer_Id_Utilisateur FOREIGN KEY (Id_Utilisateur) REFERENCES UTILISATEUR(Id_Utilisateur);
 ALTER TABLE Contenir ADD CONSTRAINT FK_Contenir_Id_Produit FOREIGN KEY (Id_Produit) REFERENCES PRODUIT(Id_Produit);
-ALTER TABLE Contenir ADD CONSTRAINT FK_Contenir_Id_Panier FOREIGN KEY (Id_Panier) REFERENCES PANIER(Id_Panier);
-ALTER TABLE Gerer ADD CONSTRAINT FK_Gerer_Id_Utilisateur FOREIGN KEY (Id_Utilisateur) REFERENCES UTILISATEUR(Id_Utilisateur);
+ALTER TABLE Contenir ADD CONSTRAINT FK_Contenir_Id_Commande FOREIGN KEY (Id_Commande) REFERENCES COMMANDE(Id_Commande);
 ALTER TABLE Gerer ADD CONSTRAINT FK_Gerer_Id_Produit FOREIGN KEY (Id_Produit) REFERENCES PRODUIT(Id_Produit);
+ALTER TABLE Gerer ADD CONSTRAINT FK_Gerer_Id_Utilisateur FOREIGN KEY (Id_Utilisateur) REFERENCES UTILISATEUR(Id_Utilisateur);
+ALTER TABLE Effectuer ADD CONSTRAINT FK_Effectuer_Id_Commande FOREIGN KEY (Id_Commande) REFERENCES COMMANDE(Id_Commande);
 ALTER TABLE Effectuer ADD CONSTRAINT FK_Effectuer_Id_Utilisateur FOREIGN KEY (Id_Utilisateur) REFERENCES UTILISATEUR(Id_Utilisateur);
-ALTER TABLE Effectuer ADD CONSTRAINT FK_Effectuer_Id_Panier FOREIGN KEY (Id_Panier) REFERENCES PANIER(Id_Panier);
-ALTER TABLE Voter ADD CONSTRAINT FK_Voter_Id_Utilisateur FOREIGN KEY (Id_Utilisateur) REFERENCES UTILISATEUR(Id_Utilisateur);
-ALTER TABLE Voter ADD CONSTRAINT FK_Voter_Id_Utilisateur_UTILISATEUR FOREIGN KEY (Id_Utilisateur_UTILISATEUR) REFERENCES UTILISATEUR(Id_Utilisateur);
-ALTER TABLE Voter ADD CONSTRAINT FK_Voter_Id_Vote FOREIGN KEY (Id_Vote) REFERENCES VOTE(Id_Vote);
-ALTER TABLE Voter ADD CONSTRAINT FK_Voter_Id_Activite FOREIGN KEY (Id_Activite) REFERENCES ACTIVITE(Id_Activite);
+ALTER TABLE Inscrire ADD CONSTRAINT FK_Inscrire_Id_Inscription_Manifestation FOREIGN KEY (Id_Inscription_Manifestation) REFERENCES INSCRIPTION_MANIFESTATION(Id_Inscription_Manifestation);
+ALTER TABLE Inscrire ADD CONSTRAINT FK_Inscrire_Id_Manifestation FOREIGN KEY (Id_Manifestation) REFERENCES MANIFESTATION(Id_Manifestation);
+ALTER TABLE Inscrire ADD CONSTRAINT FK_Inscrire_Id_Utilisateur FOREIGN KEY (Id_Utilisateur) REFERENCES UTILISATEUR(Id_Utilisateur);
 ALTER TABLE Archiver ADD CONSTRAINT FK_Archiver_Id_Manifestation FOREIGN KEY (Id_Manifestation) REFERENCES MANIFESTATION(Id_Manifestation);
 ALTER TABLE Archiver ADD CONSTRAINT FK_Archiver_Id_Evenement_Passe FOREIGN KEY (Id_Evenement_Passe) REFERENCES EVENEMENT_PASSE(Id_Evenement_Passe);
+ALTER TABLE Aimer ADD CONSTRAINT FK_Aimer_Id_Utilisateur FOREIGN KEY (Id_Utilisateur) REFERENCES UTILISATEUR(Id_Utilisateur);
+ALTER TABLE Aimer ADD CONSTRAINT FK_Aimer_Id_Likes FOREIGN KEY (Id_Likes) REFERENCES LIKES(Id_Likes);
+ALTER TABLE Aimer ADD CONSTRAINT FK_Aimer_Id_Image FOREIGN KEY (Id_Image) REFERENCES IMAGE(Id_Image);
+ALTER TABLE Aimer ADD CONSTRAINT FK_Aimer_Id_Evenement_Passe FOREIGN KEY (Id_Evenement_Passe) REFERENCES EVENEMENT_PASSE(Id_Evenement_Passe);
+ALTER TABLE Ajouter ADD CONSTRAINT FK_Ajouter_Id_Utilisateur FOREIGN KEY (Id_Utilisateur) REFERENCES UTILISATEUR(Id_Utilisateur);
+ALTER TABLE Ajouter ADD CONSTRAINT FK_Ajouter_Id_Image FOREIGN KEY (Id_Image) REFERENCES IMAGE(Id_Image);
+ALTER TABLE Ajouter ADD CONSTRAINT FK_Ajouter_Id_Evenement_Passe FOREIGN KEY (Id_Evenement_Passe) REFERENCES EVENEMENT_PASSE(Id_Evenement_Passe);
+ALTER TABLE Commenter ADD CONSTRAINT FK_Commenter_Id_Utilisateur FOREIGN KEY (Id_Utilisateur) REFERENCES UTILISATEUR(Id_Utilisateur);
+ALTER TABLE Commenter ADD CONSTRAINT FK_Commenter_Id_Commentaire FOREIGN KEY (Id_Commentaire) REFERENCES COMMENTAIRE(Id_Commentaire);
+ALTER TABLE Commenter ADD CONSTRAINT FK_Commenter_Id_Image FOREIGN KEY (Id_Image) REFERENCES IMAGE(Id_Image);
+ALTER TABLE Commenter ADD CONSTRAINT FK_Commenter_Id_Evenement_Passe FOREIGN KEY (Id_Evenement_Passe) REFERENCES EVENEMENT_PASSE(Id_Evenement_Passe);
