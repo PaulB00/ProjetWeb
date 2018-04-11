@@ -8,15 +8,13 @@
 #------------------------------------------------------------
 
 CREATE TABLE UTILISATEUR(
-        Id_Utilisateur             int (11) Auto_increment  NOT NULL ,
+        Id_Utilisateur             int (11) Auto_increment NULL ,
         Nom_Utilisateur            Varchar (25) NOT NULL ,
         Prenom_Utilisateur         Varchar (25) NOT NULL ,
         Mail_Utilisateur           Varchar (50) NOT NULL ,
         Mpd_Utilisateur            Varchar (25) NOT NULL ,
         Statut_Utilisateur         Varchar (25) NOT NULL ,
         Etat_Connexion_Utilisateur Bool ,
-        Id_Vote                    Int NOT NULL ,
-        Id_Activite                Int NOT NULL ,
         PRIMARY KEY (Id_Utilisateur )
 )ENGINE=InnoDB;
 
@@ -258,8 +256,7 @@ CREATE TABLE Commenter(
         PRIMARY KEY (Id_Utilisateur ,Id_Commentaire ,Id_Image ,Id_Evenement_Passe )
 )ENGINE=InnoDB;
 
-ALTER TABLE UTILISATEUR ADD CONSTRAINT FK_UTILISATEUR_Id_Vote FOREIGN KEY (Id_Vote) REFERENCES VOTE(Id_Vote);
-ALTER TABLE UTILISATEUR ADD CONSTRAINT FK_UTILISATEUR_Id_Activite FOREIGN KEY (Id_Activite) REFERENCES ACTIVITE(Id_Activite);
+
 ALTER TABLE ACTIVITE ADD CONSTRAINT FK_ACTIVITE_Id_Utilisateur FOREIGN KEY (Id_Utilisateur) REFERENCES UTILISATEUR(Id_Utilisateur);
 ALTER TABLE ACTIVITE ADD CONSTRAINT FK_ACTIVITE_Id_Manifestation FOREIGN KEY (Id_Manifestation) REFERENCES MANIFESTATION(Id_Manifestation);
 ALTER TABLE INSCRIPTION_MANIFESTATION ADD CONSTRAINT FK_INSCRIPTION_MANIFESTATION_Id_Manifestation FOREIGN KEY (Id_Manifestation) REFERENCES MANIFESTATION(Id_Manifestation);
