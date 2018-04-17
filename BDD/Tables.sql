@@ -27,11 +27,11 @@ CREATE TABLE ACTIVITE(
         Id_Activite          int (11) Auto_increment  NOT NULL ,
         Nom_Activite         Varchar (25) NOT NULL ,
         Description_Activite Varchar (124) NOT NULL ,
-        Validation_Activite  Bool ,
-        Nombre_Vote          Int ,
+        Validation_Activite  Bool NULL,
+        Nombre_Vote          Int NULL,
         Nom_Utilisateur      Varchar (25) NOT NULL , 
         Prenom_Utilisateur   Varchar (25) NOT NULL ,
-        Id_Manifestation     Int NOT NULL ,
+        Id_Manifestation     Int NULL ,
         PRIMARY KEY (Id_Activite )
 )ENGINE=InnoDB;
 
@@ -101,13 +101,13 @@ CREATE TABLE MANIFESTATION(
 
 CREATE TABLE PRODUIT(
         Id_Produit          int (11) Auto_increment  NOT NULL ,
-        Nom_Produit         Varchar (25) ,
-        Description_Produit Varchar (50) ,
+        Nom_Produit         Varchar (50) NOT NULL,
+        Description_Produit Varchar (255) NOT NULL,
         Img_Produit         Numeric NOT NULL ,
-        Prix_Produit        DECIMAL (15,3)  ,
-        Nombre_Vendu        Int ,
-        Id_Categorie        Int NOT NULL ,
-        PRIMARY KEY (Id_Produit ,Id_Categorie )
+        Prix_Produit        DECIMAL (15,3)  NOT NULL,
+        Nombre_Vendu        Int NULL,
+        Nom_Categorie       Varchar (50) NOT NULL ,
+        PRIMARY KEY (Id_Produit )
 )ENGINE=InnoDB;
 
 
@@ -143,8 +143,6 @@ CREATE TABLE IMAGE(
 CREATE TABLE CATEGORIE(
         Id_Categorie   int (11) Auto_increment  NOT NULL ,
         Nom_Categorie  Varchar (50) NOT NULL ,
-        Nom_Utilisateur      Varchar (25) NOT NULL , 
-        Prenom_Utilisateur   Varchar (25) NOT NULL ,
         PRIMARY KEY (Id_Categorie )
 )ENGINE=InnoDB;
 
@@ -246,7 +244,6 @@ ALTER TABLE MANIFESTATION ADD CONSTRAINT FK_MANIFESTATION_Id_Activite FOREIGN KE
 ALTER TABLE PRODUIT ADD CONSTRAINT FK_PRODUIT_Id_Categorie FOREIGN KEY (Id_Categorie) REFERENCES CATEGORIE(Id_Categorie);
 ALTER TABLE IMAGE ADD CONSTRAINT FK_IMAGE_Id_Evenement_Passe FOREIGN KEY (Id_Evenement_Passe) REFERENCES EVENEMENT_PASSE(Id_Evenement_Passe);
 ALTER TABLE IMAGE ADD CONSTRAINT FK_IMAGE_Id_Manifestation FOREIGN KEY (Id_Manifestation) REFERENCES MANIFESTATION(Id_Manifestation);
-ALTER TABLE CATEGORIE ADD CONSTRAINT FK_CATEGORIE_Id_Utilisateur FOREIGN KEY (Id_Utilisateur) REFERENCES UTILISATEUR(Id_Utilisateur);
 ALTER TABLE Administrer ADD CONSTRAINT FK_Administrer_Id_Evenement_Passe FOREIGN KEY (Id_Evenement_Passe) REFERENCES EVENEMENT_PASSE(Id_Evenement_Passe);
 ALTER TABLE Administrer ADD CONSTRAINT FK_Administrer_Id_Manifestation FOREIGN KEY (Id_Manifestation) REFERENCES MANIFESTATION(Id_Manifestation);
 ALTER TABLE Administrer ADD CONSTRAINT FK_Administrer_Id_Utilisateur FOREIGN KEY (Id_Utilisateur) REFERENCES UTILISATEUR(Id_Utilisateur);
