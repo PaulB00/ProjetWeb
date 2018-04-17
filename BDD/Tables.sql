@@ -29,7 +29,8 @@ CREATE TABLE ACTIVITE(
         Description_Activite Varchar (124) NOT NULL ,
         Validation_Activite  Bool ,
         Nombre_Vote          Int ,
-        Id_Utilisateur       Int NOT NULL ,
+        Nom_Utilisateur      Varchar (25) NOT NULL , 
+        Prenom_Utilisateur   Varchar (25) NOT NULL ,
         Id_Manifestation     Int NOT NULL ,
         PRIMARY KEY (Id_Activite )
 )ENGINE=InnoDB;
@@ -41,8 +42,11 @@ CREATE TABLE ACTIVITE(
 
 CREATE TABLE INSCRIPTION_MANIFESTATION(
         Id_Inscription_Manifestation int (11) Auto_increment  NOT NULL ,
-        Id_Manifestation             Int NOT NULL ,
-        PRIMARY KEY (Id_Inscription_Manifestation ,Id_Manifestation )
+        Nom_Manifestation            Varchar (25) NOT NULL ,
+        Mail_Utilisateur			 Varchar (100) NOT NULL ,
+        Statut_Utilisateur			 Varchar (25) NOT NULL ,
+        
+        PRIMARY KEY (Id_Inscription_Manifestation )
 )ENGINE=InnoDB;
 
 
@@ -139,7 +143,8 @@ CREATE TABLE IMAGE(
 CREATE TABLE CATEGORIE(
         Id_Categorie   int (11) Auto_increment  NOT NULL ,
         Nom_Categorie  Varchar (50) NOT NULL ,
-        Id_Utilisateur Int NOT NULL ,
+        Nom_Utilisateur      Varchar (25) NOT NULL , 
+        Prenom_Utilisateur   Varchar (25) NOT NULL ,
         PRIMARY KEY (Id_Categorie )
 )ENGINE=InnoDB;
 
